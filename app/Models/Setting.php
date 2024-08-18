@@ -21,7 +21,7 @@ class Setting extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = ['key', 'value'];
     // protected $hidden = [];
 
     /*
@@ -29,7 +29,15 @@ class Setting extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    /**
+     * @param string $key
+     * @return void
+     */
+    public static function getSettingByKey(string $key)
+    {
+        $value = self::where('key', $key)->value('value');
+        return $value !== null ? $value : '';
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
