@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->string('password');
-            $table->string('phone_number')->nullable()->default(null);
+            $table->string('phone_number')->unique();
             $table->enum('role', [
                 'level_1',
                 'level_2',
@@ -32,6 +32,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->tinyInteger('deleted_by')->nullable();
         });
+        $this->seedUsers();
     }
 
     /**
@@ -40,5 +41,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+    }
+
+    /**
+     * Seeding the Users
+     *
+     */
+    private function seedUsers()
+    {
+        $seeder = new \Database\Seeders\UsersSeeder;
+        $seeder->run();
     }
 };

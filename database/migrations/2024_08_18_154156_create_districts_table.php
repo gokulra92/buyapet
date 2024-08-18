@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
         });
+        $this->seedDistricts();
     }
 
     /**
@@ -32,5 +33,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('post_districts');
+    }
+
+    /**
+     * Seeding the Districts
+     *
+     */
+    private function seedDistricts()
+    {
+        $seeder = new \Database\Seeders\DistrictSeeder;
+        $seeder->run();
     }
 };

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->tinyInteger('deleted_by')->nullable();
         });
+        $this->seedCountries();
     }
 
     /**
@@ -27,5 +28,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('post_countries');
+    }
+
+    /**
+     * Seeding the Countries
+     *
+     */
+    private function seedCountries()
+    {
+        $seeder = new \Database\Seeders\CountriesSeeder;
+        $seeder->run();
     }
 };
