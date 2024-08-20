@@ -21,7 +21,9 @@ class PetShop extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = [
+        'customer_id', 'shop_name', 'shop_ph_number', 'business_hours'
+    ];
     // protected $hidden = [];
 
     /*
@@ -29,6 +31,10 @@ class PetShop extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
 
     /*
     |--------------------------------------------------------------------------

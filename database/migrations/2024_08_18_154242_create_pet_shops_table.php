@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('pet_shops', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('customer_id');
             $table->string('shop_name');
             $table->string('shop_ph_number')->nullable()->default(null);
             $table->string('business_hours')->nullable()->default(null);
             $table->timestamps();
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

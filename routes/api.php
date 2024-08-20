@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('api.auth')->group(function () {
 
-    Route::get('getCustomers/{id}', 'App\Http\Controllers\CustomerController@getCustomers');
+    Route::get('getCustomerById/{id}', 'App\Http\Controllers\CustomerController@getCustomerById');
     Route::get('getFollowers/{id}', 'App\Http\Controllers\CustomerController@getFollowers');
     Route::get('getSettings/{id}', 'App\Http\Controllers\CustomerController@getSettings');
     Route::get('getWishlists/{id}', 'App\Http\Controllers\CustomerController@getWishlists');
@@ -32,8 +32,8 @@ Route::middleware('api.auth')->group(function () {
     Route::post('submitRating', 'App\Http\Controllers\CustomerController@submitRating');
     Route::post('updateCustomer', 'App\Http\Controllers\CustomerController@updateCustomer');
 
-    Route::get('getAllCategories', 'App\Http\Controllers\PetCategoriesController@getAllCategories');
-    Route::get('getCategoryById', 'App\Http\Controllers\PetCategoriesController@getCategoryById');
+    Route::get('getCategories', 'App\Http\Controllers\PetCategoriesController@getCategories');
+    Route::get('getCategories/{id}', 'App\Http\Controllers\PetCategoriesController@getCategories');
 
     Route::get('getAllBreeds', 'App\Http\Controllers\BreedsController@getAllBreeds');
     Route::get('getBreedById', 'App\Http\Controllers\BreedsController@getBreedById');
