@@ -24,8 +24,7 @@ class Customer extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = [
-        'name', 'email', 'password', 'phone_number', 'is_ph_verified', 'is_email_verified', 
-        'is_active', 'remember_token', 'auth_token', 'token_expires_at', 'is_deleted', 'deleted_by'
+        'name', 'email', 'phone_number', 'profile_picture', 'is_active'
     ];
     // protected $hidden = [];
 

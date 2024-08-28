@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->string('shop_name');
             $table->string('shop_ph_number')->nullable()->default(null);
-            $table->string('business_hours')->nullable()->default(null);
+            $table->json('business_days')->nullable()->default(null);
+            $table->json('business_hours')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

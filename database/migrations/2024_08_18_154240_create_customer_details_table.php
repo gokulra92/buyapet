@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('customer_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->string('profile_picture')->nullable();
             $table->string('reference_key')->nullable();
             $table->enum('gender', [
                 'male',

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('password');
             $table->string('phone_number')->unique();
+            $table->string('profile_picture')->nullable();
             $table->boolean('is_ph_verified')->default(false);
             $table->boolean('is_email_verified')->default(false);
             $table->boolean('is_active')->default(true);

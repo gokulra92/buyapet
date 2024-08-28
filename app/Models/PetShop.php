@@ -22,9 +22,12 @@ class PetShop extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = [
-        'customer_id', 'shop_name', 'shop_ph_number', 'business_hours'
+        'customer_id', 'shop_name', 'shop_ph_number', 'business_days', 'business_hours'
     ];
     // protected $hidden = [];
+    protected $casts = [
+        'business_days' => 'array'
+    ];
 
     /*
     |--------------------------------------------------------------------------
