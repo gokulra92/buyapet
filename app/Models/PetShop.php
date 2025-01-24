@@ -26,7 +26,8 @@ class PetShop extends Model
     ];
     // protected $hidden = [];
     protected $casts = [
-        'business_days' => 'array'
+        'business_days' => 'json',
+        'business_hours' => 'json',
     ];
 
     /*

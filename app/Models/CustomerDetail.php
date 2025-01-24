@@ -10,9 +10,15 @@ class CustomerDetail extends Model
     protected $table = 'customer_details';
 
     protected $fillable = [
-        'customer_id', 'gender', 'dob',
-        'country', 'state', 'district',
-        'subscribe_newsletter', 'show_followers_count', 'send_contact_detail_to_email'
+        'customer_id',
+        'gender',
+        'dob',
+        'country',
+        'state',
+        'district',
+        'subscribe_newsletter',
+        'show_followers_count',
+        'send_contact_detail_to_email'
     ];
 
     public function customer()
@@ -20,8 +26,8 @@ class CustomerDetail extends Model
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
-    public function petShop()
+    public function getDobAttribute($value)
     {
-        return $this->hasOne(PetShop::class);
+        return \Carbon\Carbon::parse($value)->format('d-m-Y');
     }
 }

@@ -74,6 +74,38 @@ class CustomerCrudController extends CrudController
          * - CRUD::field('price')->type('number');
          */
 
+        $customer = !empty(CRUD::getCurrentEntry()) ? CRUD::getCurrentEntry() : null;
+        $business_days = !empty($customer->petShops->business_days)
+            ? json_decode($customer->petShops->business_days)
+            : [];
+        $business_hours = '';
+        if (!empty($customer->petShops->business_hours)) {
+            $hours = json_decode($customer->petShops->business_hours, true);
+            $business_hours = $hours[$business_days[1]]; // TODO: Currently showing the first time
+        }
+        $shopName = !empty($customer->petShops->shop_name) ? $customer->petShops->shop_name : '';
+        $shop_ph_number = !empty($customer->petShops->shop_ph_number) ? $customer->petShops->shop_ph_number : '';
+
+        $dob = !empty($customer->customerDetail->dob) ? $customer->customerDetail->dob : '';
+        $gender = !empty($customer->customerDetail->gender) ? $customer->customerDetail->gender : '';
+        $subscribe_newsletter = !empty($customer->customerDetail->subscribe_newsletter)
+            ? $customer->customerDetail->subscribe_newsletter
+            : 0;
+        $show_followers_count = !empty($customer->customerDetail->show_followers_count)
+            ? $customer->customerDetail->show_followers_count
+            : 0;
+        $send_contact_detail_to_email = !empty($customer->customerDetail->send_contact_detail_to_email)
+            ? $customer->customerDetail->send_contact_detail_to_email
+            : 0;
+        $countryId = !empty($customer->customerDetail->country)
+            ? $customer->customerDetail->country
+            : '';
+        $stateId = !empty($customer->customerDetail->state)
+            ? $customer->customerDetail->state
+            : '';
+        $districtId = !empty($customer->customerDetail->district)
+            ? $customer->customerDetail->district
+            : '';
         CRUD::addField([
             'name' => 'profile_picture',
             'label' => 'Profile Picture',
@@ -93,12 +125,18 @@ class CustomerCrudController extends CrudController
                 'female' => 'Female',
                 'not_specified' => 'Other'
             ],
-            'allows_null' => true
+            'allows_null' => true,
+            'value' => $gender
         ]);
-        CRUD::field('dob')->type('date')->label('Date Of Birth');
-        CRUD::field('shop_name')->type('text');
-        CRUD::field('shop_ph_number')->type('number')->label('Shop Phone Number');
-
+        CRUD::addField([
+            'name' => 'dob',
+            'label' => 'Date Of Birth',
+            'type' => 'date',
+            'value' => $dob
+        ]);
+        // CRUD::field('dob')->type('date')->label('Date Of Birth')->value($dob);
+        CRUD::field('shop_name')->type('text')->label('Shop Name')->value($shopName);
+        CRUD::field('shop_ph_number')->type('number')->label('Shop Phone Number')->value($shop_ph_number);
         CRUD::addField([
             'name' => 'business_days[]',
             'label' => 'Business Days',
@@ -116,6 +154,7 @@ class CustomerCrudController extends CrudController
             'attributes' => [
                 'multiple' => 'multiple',
             ],
+            'value' => $business_days
         ]);
         CRUD::addField([
             'name' => "business_hours",
@@ -124,6 +163,7 @@ class CustomerCrudController extends CrudController
             'attributes' => [
                 'placeholder' => 'e.g., 09:00 - 17:00',
             ],
+            'value' => $business_hours
         ]);
         CRUD::addField([
             'name' => 'country',
@@ -135,7 +175,8 @@ class CustomerCrudController extends CrudController
             'allows_null' => false,
             'options' => (function ($query) {
                 return $query->where('is_active', 1)->get();
-            })
+            }),
+            'value' => $countryId
         ]);
         CRUD::addField([
             'name' => 'state',
@@ -147,7 +188,8 @@ class CustomerCrudController extends CrudController
             'allows_null' => false,
             'options' => (function ($query) {
                 return $query->where('is_active', 1)->get();
-            })
+            }),
+            'value' => $stateId
         ]);
         CRUD::addField([
             'name' => 'district',
@@ -159,11 +201,12 @@ class CustomerCrudController extends CrudController
             'allows_null' => false,
             'options' => (function ($query) {
                 return $query->where('is_active', 1)->get();
-            })
+            }),
+            'value' => $districtId
         ]);
-        CRUD::field('subscribe_newsletter')->type('checkbox');
-        CRUD::field('show_followers_count')->type('checkbox');
-        CRUD::field('send_contact_detail_to_email')->type('checkbox');
+        CRUD::field('subscribe_newsletter')->type('checkbox')->value($subscribe_newsletter);
+        CRUD::field('show_followers_count')->type('checkbox')->value($show_followers_count);
+        CRUD::field('send_contact_detail_to_email')->type('checkbox')->value($send_contact_detail_to_email);
         CRUD::addField([
             'name' => 'is_active',
             'label' => 'Status',
@@ -219,7 +262,7 @@ class CustomerCrudController extends CrudController
                 'dob.date' => 'Please enter a valid date.',
                 'dob.before' => 'Customer must be at least 18 years old.',
                 'dob.after' => 'The date of birth must be after January 1, 1900.',
-                // 'business_hours.regex' => 'The business hours must be in the format HH:MM - HH:MM.',
+                'business_hours.regex' => 'The business hours must be in the format HH:MM - HH:MM.',
             ]);
 
             if (

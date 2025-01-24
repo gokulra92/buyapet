@@ -41,7 +41,7 @@ class Customer extends Model
 
     public function petShops()
     {
-        return $this->hasMany(PetShop::class, 'customer_id', 'id');
+        return $this->hasOne(PetShop::class, 'customer_id', 'id');
     }
 
     public function getCountry()
